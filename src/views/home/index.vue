@@ -7,22 +7,25 @@
         </el-aside>
         <!--右侧导航组件-->
         <el-container>
+          <!--右侧头部-->
             <el-header>Header</el-header>
-            <el-main>Main</el-main>
+              <!--右侧容器内容-->
+            <el-main>
+                <router-view></router-view>
+            </el-main>
         </el-container>
     </el-container>
-
 </template>
 
 <script>
 import layoutAside from '../../components/home/layou-aside'
 export default {
-  comments: {
+  components: {
     'layout-aside': layoutAside
   }
 }
 </script>
 
-<style lang="less" scoped>
+<style>
 
 </style>
