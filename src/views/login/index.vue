@@ -14,7 +14,7 @@
                 <el-input v-model="loginForm.code" placeholder="请输入验证码" style="width:60%"></el-input>
                  <el-button style="float:right">请输入验证码</el-button>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="agree">
                 <el-checkbox v-model="loginForm.agree" class="box-card-checked">我已同意以下条款</el-checkbox>
           </el-form-item>
           <el-form-item>
