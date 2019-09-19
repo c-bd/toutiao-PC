@@ -1,10 +1,9 @@
 <template>
     <div class="login">
-        <el-card class="box-card">
-        <div class="title"><img src="../../assets/img/logo_index.png" alt="">
-        </div>
+        <el-card class="box-card login-card" >
+
         <!--2.在form上设置:model="loginForm" :rules="loginRules"属性-->
-        <el-form :model="loginForm" :rules="loginRules" ref="ruleForm">
+        <el-form :model="loginForm" status-icon :rules="loginRules" ref="ruleForm" >
         <!--3.设置prop为里面的内容-->
           <el-form-item style="margin-top:20px"  prop="mobile">
             <!--4.设置v-model为下面data中的内容-->
@@ -12,7 +11,7 @@
           </el-form-item>
           <el-form-item  prop="code">
                 <el-input v-model="loginForm.code" placeholder="请输入验证码" style="width:60%"></el-input>
-                 <el-button style="float:right">请输入验证码</el-button>
+                 <el-button style="float:right">获取验证码</el-button>
           </el-form-item>
           <el-form-item prop="agree">
                 <el-checkbox v-model="loginForm.agree" class="box-card-checked">我已同意以下条款</el-checkbox>
@@ -30,11 +29,14 @@
 <script>
 export default {
   data () {
+    var checkAge = (rule, value, callback) => {
+      !value ? callback(new Error('手机号不能为空')) : callback()
+    }
     //   我们在这里定义复选框的规则
     // validator验证器(自定义效验函数 帮我们效验复选框)
     // rule当前规则 value当前值 callback回调函数
     let validator = function (rule, value, callBack) {
-      value ? callBack() : callBack(new Error('您必须同意无条件被我们蒙骗'))
+      value ? callBack() : callBack(new Error('请您选择同意以下条款'))
     }
     return {
       loginForm: {
@@ -45,9 +47,10 @@ export default {
       },
       loginRules: {
         // 5.表单验证功能的最终实现 设置为true则表示该字段必填
-        mobile: [{ required: true, message: '请输入您的手机号' },
-          { pattern: /^1[3456789]\d{9}$/, message: '请正确输入手机号' }],
-        code: [{ required: true, message: '请输入验证码' },
+        mobile: [
+          { pattern: /^1[3456789]\d{9}$/, message: '请正确输入手机号' },
+          { validator: checkAge, trigger: 'blur' }],
+        code: [{ required: true, message: '请输入验证码', trigger: 'blur' },
           { pattern: /^\d{6}$/, message: '请正确输入验证码,为6位数字' }],
         agree: [{ validator }]
       }
@@ -87,20 +90,25 @@ export default {
 
 <style lang="less" scoped>
 .login{
-    background-image:url('../../assets/img/login_bg.jpg');
+    background-image:url(http://img02.tooopen.com/images/20160111/tooopen_sy_154068216893.jpg);
     height:100vh;
     background-size:cover;
+
     display:flex;
+
     justify-content:center;
     align-items:center;
+    .login-card{
+
+      opacity:0.8;
+      background-image:url(http://hbimg.b0.upaiyun.com/e029099b610ec9a100657d8c9bcd5d955211d5cac293-2fdtUA_fw658);
+    }
     .box-card{
         width:440px;
-        height:330px;
+        height:290px;
         .title{
             text-align: center;
-            img{
-            height:35px;
-        }
+
         }
     }
 }
