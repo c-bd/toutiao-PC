@@ -99,7 +99,6 @@ export default {
     justify-content:center;
     align-items:center;
     .login-card{
-
       opacity:0.8;
       background-image:url(http://hbimg.b0.upaiyun.com/e029099b610ec9a100657d8c9bcd5d955211d5cac293-2fdtUA_fw658);
     }
