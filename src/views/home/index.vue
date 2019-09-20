@@ -1,6 +1,6 @@
 <template>
     <el-container >
-        <el-aside >
+        <el-aside style="overflow:hidden">
         <!--左侧导航组件-->
              <layout-aside></layout-aside>
         </el-aside>
@@ -11,7 +11,7 @@
               <layout-right-header></layout-right-header>
             </el-header>
               <!--右侧容器内容-->
-            <el-main>
+            <el-main style="padding:0">
                 <router-view>
                 </router-view>
             </el-main>
