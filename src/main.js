@@ -5,9 +5,11 @@ import Axios from 'axios'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './style/index.less'
+import Component from './components/index.js'
 Vue.config.productionTip = false
 Vue.prototype.$axios = Axios
 Vue.use(ElementUI)
+Vue.use(Component)
 Axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 new Vue({
   router,

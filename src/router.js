@@ -3,6 +3,7 @@ import Router from 'vue-router'
 // 在入口处引入一级路由
 import Home from './views/home/' // 简写
 import Login from './views/login/'
+import Main from './views/home/main'
 import HomePublish from './components/content/home-children/home-publish'
 import HomeArticles from './components/content/home-children/home-articles'
 import HomeComment from './components/content/home-children/home-comment'
@@ -26,6 +27,10 @@ export default new Router({
       path: '/home',
       component: Home,
       children: [
+        {
+          path: '', // 上面都不写 默认二级路由
+          component: Main
+        },
         {
           path: 'publish',
           component: HomePublish
@@ -63,7 +68,7 @@ export default new Router({
           component: HomeFansimg
         },
         {
-          path: 'center',
+          path: 'account',
           component: HomeCenter
         }
       ]

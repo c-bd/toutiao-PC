@@ -29,7 +29,7 @@
 <script>
 export default {
   data () {
-    var checkAge = (rule, value, callback) => {
+    let checkAge = (rule, value, callback) => {
       !value ? callback(new Error('手机号不能为空')) : callback()
     }
     //   我们在这里定义复选框的规则
