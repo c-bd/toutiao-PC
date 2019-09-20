@@ -21,7 +21,6 @@ export default new Router({
       // 这里两个都是一级路由 我们为空的时候应该默认跳转到首页
       path: '/',
       directives: '/home'
-
     },
     {
       path: '/home',
