@@ -6,14 +6,14 @@
     </el-col>
     <el-col :span="4">
             <img src="../../assets/img/avatar.jpg" class="userimg">
-            <el-dropdown trigger="click">
+            <el-dropdown trigger="click" @command="handleCommand">
       <span class="el-dropdown-link">
-        {{}}<i class="el-icon-arrow-down el-icon--right"></i>
+        {{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item >个人信息</el-dropdown-item>
-        <el-dropdown-item>git地址</el-dropdown-item>
-        <el-dropdown-item >退出</el-dropdown-item>
+        <el-dropdown-item command="account">个人信息</el-dropdown-item>
+        <el-dropdown-item command="git">git地址</el-dropdown-item>
+        <el-dropdown-item command="lyout">退出</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     </el-col>
@@ -26,6 +26,31 @@ export default {
     return {
       userInfo: {}
     }
+  },
+  methods: {
+    logUser () {
+      this.$axios({
+        url: '/user/profile'
+      }).then(result => {
+        this.userInfo = result.data
+      })
+    },
+    handleCommand (command) {
+      // 判断我当前点击的是哪一个
+      if (command === 'account') {
+        this.$router.push('/home/account')
+      } else if (command === 'git') {
+        window.location.href = 'https://github.com/shuiruohanyu/83heimatoutiao'
+      } else {
+        //   在推出之前将本地的缓存删掉
+        window.localStorage.clear()
+        this.$router.push('/login')
+      }
+    }
+    //   获取用户的头像和名字但是必须携带token令牌才可以拿到
+  },
+  created () {
+    this.logUser()
   }
 }
 </script>
