@@ -1,5 +1,7 @@
 <template>
+
     <el-container >
+
         <el-aside style="overflow:hidden">
         <!--左侧导航组件-->
              <layout-aside></layout-aside>
@@ -20,6 +22,7 @@
 </template>
 <script>
 export default {
+
 }
 </script>
 

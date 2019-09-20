@@ -27,6 +27,7 @@
 </template>
 
 <script>
+
 export default {
   data () {
     let checkAge = (rule, value, callback) => {
@@ -69,16 +70,15 @@ export default {
             data: this.loginForm
           }).then(
             result => {
-            //   我们这里需要把这个值存入本地存储器中 token令牌 存储用户的信息
-              window.localStorage.setItem('user-token', result.data.data.token)
-              this.$router.push('./home')
-            }
-          ).catch(
-            () => {
+              debugger
+              //   我们这里需要把这个值存入本地存储器中 token令牌 存储用户的信息
+              window.localStorage.setItem('user-token', result.data.token)
+
               this.$message({
-                message: '手机号或者验证码错误',
-                type: 'warning'
+                type: 'success',
+                message: '登陆成功'
               })
+              this.$router.push('./home')
             }
           )
         }

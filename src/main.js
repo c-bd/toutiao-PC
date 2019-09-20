@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './permission/permission.js'
-import Axios from 'axios'
+import Axios from './utils/axiosconfig.js'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './style/index.less'
@@ -10,7 +10,7 @@ Vue.config.productionTip = false
 Vue.prototype.$axios = Axios
 Vue.use(ElementUI)
 Vue.use(Component)
-Axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
+
 new Vue({
   router,
   render: h => h(App)

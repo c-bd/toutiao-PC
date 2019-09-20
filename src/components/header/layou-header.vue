@@ -5,7 +5,7 @@
         <span>山西臻货自媒体有限公司</span>
     </el-col>
     <el-col :span="4">
-            <img src="../../assets/img/avatar.jpg" class="userimg">
+            <img :src="userInfo.photo?userInfo.photo:defaultImg" class="userimg">
             <el-dropdown trigger="click" @command="handleCommand">
       <span class="el-dropdown-link">
         {{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -24,15 +24,16 @@
 export default {
   data () {
     return {
-      userInfo: {}
+      userInfo: {},
+      defaultImg: require('../../assets/img/avatar.jpg')// 转换成base64位字符串
     }
   },
   methods: {
-    logUser () {
+    getUserInfo () {
       this.$axios({
-        url: '/user/profile'
-      }).then(result => {
-        this.userInfo = result.data
+        url: '/user/profile' }).then(result => {
+        console.log(result)
+        this.userInfo = result.data // 接收数据对象
       })
     },
     handleCommand (command) {
@@ -50,7 +51,7 @@ export default {
     //   获取用户的头像和名字但是必须携带token令牌才可以拿到
   },
   created () {
-    this.logUser()
+    this.getUserInfo()
   }
 }
 </script>
