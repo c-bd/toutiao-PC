@@ -31,6 +31,11 @@
       label="操作"
       >
     </el-table-column>
+    <template>
+        <el-button type="text">修改</el-button>
+        <el-button type="text" disabled>打开评论</el-button>
+    </template>
+
   </el-table>
 </el-card>
 
@@ -39,12 +44,27 @@
 export default {
   data () {
     return {
+      // 设置一个list空数组 将请求回来的结果直接给数组  就可以把所有的内容都显示出来
+      list: []
 
     }
   },
   methods: {
     //   我们在这里需要拉取数据将评论展示在评论列表内
-
+    loadComment () {
+      this.loading = true // 显示遮罩
+      this.$axios({
+        url: '/articles',
+        params: { response_type: 'comment' }
+      }).then(result => {
+        this.list = result.data.results // 把返回的数据赋值给list
+        // this.page.total = result.data.total_count // 把总条数给 分页组件的总条数
+        // this.loading = false // 关闭遮罩
+      })
+    }
+  },
+  created () {
+    this.loadComment()
   }
 }
 </script>
