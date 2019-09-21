@@ -6,8 +6,6 @@ import Login from './views/login/'
 import Main from './views/home/main'
 import HomePublish from './components/content/home-children/home-publish'
 import HomeArticles from './components/content/home-children/home-articles'
-import HomeComment from './components/content/home-children/home-comment'
-import HomeMaterial from './components/content/home-children/home-material'
 import HomeFansdata from './components/content/home-children/home-fansdata'
 import HomeFansinfo from './components/content/home-children/home-fansinfo'
 import HomeFanslist from './components/content/home-children/home-fanslist'
@@ -40,11 +38,11 @@ export default new Router({
         },
         {
           path: 'comment',
-          component: HomeComment
+          component: () => import('./views/comment/index.vue')
         },
         {
           path: 'material',
-          component: HomeMaterial
+          component: () => import('./views/material')
         },
         {
 
