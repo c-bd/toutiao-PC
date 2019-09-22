@@ -43,6 +43,21 @@
         </template>
     </el-table-column>
   </el-table>
+  <div class="block">
+
+    <el-row type="flex" justify="center">
+    <el-pagination
+      background
+      layout="total, sizes, prev, pager, next, jumper"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="page.currentPage"
+      :page-size="page.pageSize"
+      :total="page.total">
+    </el-pagination>
+    </el-row>
+
+  </div>
 </el-card>
 
 </template>
@@ -52,10 +67,30 @@ export default {
     return {
       // 设置一个list空数组 将请求回来的结果直接给数组  就可以把所有的内容都显示出来
       list: [],
-      loading: false
+      loading: false,
+      page: {
+        total: 0, // 总页数
+        currentPage: 1, // 当前页
+        pageSize: 10// 一页几条
+      }
     }
   },
   methods: {
+    handleCurrentChange (val) {
+      this.page.currentPage = val
+      this.loadComment()
+      //  这时候当我们改变页码时 会传入一个参数这个参数就是当前页码的数  我们把这个数重新传入  然后发送请求  就会把这一夜的数据给你返回来
+    },
+    // 改变一页几条
+    handleSizeChange (val) {
+      this.page.pageSize = val
+      this.loadComment()
+    },
+    changeTab () {
+      // 如果直接传入下面的 那么如果从第N也开始那么会找不到收藏的页面里的东西 所以我们应该在切换的时候 将页码重新变成第一页 这样才合理
+      this.page.currentPage = 1
+      this.loadComment()
+    },
     // formatter用来格式化内容的方法
     stateFormatter (row, column, cellValue, index) {
       // 因为直接布尔值是无法显示在表格中的  所以我们需要判断当前的状态 如果时true那么就显示正常 false就显示关闭
@@ -81,9 +116,10 @@ export default {
       this.loading = true // 显示遮罩
       this.$axios({
         url: '/articles',
-        params: { response_type: 'comment' }
+        params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then(result => {
         this.list = result.data.results
+        this.page.total = result.data.total_count
         this.loading = false
         // 把返回的数据赋值给list
         // this.page.total = result.data.total_count // 把总条数给 分页组件的总条数
