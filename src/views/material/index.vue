@@ -1,8 +1,18 @@
 <template>
 <el-card>
+
 <layout-right-content>
     <template slot="title">素材管理</template>
 </layout-right-content>
+<el-upload
+  class="upload-demo"
+  action=""
+:show-file-list="false"
+:http-request="uploadImg"
+>
+  <el-button  type="primary">点击上传</el-button>
+
+</el-upload>
 <el-tabs v-model="activeName" @tab-click="changeTab ()">
     <el-tab-pane label="全部素材" name="all">
          <div class="img-list">
@@ -16,6 +26,15 @@
         </div>
     </el-tab-pane>
     <el-tab-pane label="收藏素材" name="collect">
+     <div class="img-list">
+          <el-card class="img-item" v-for="item in list" :key="item.id">
+            <img :src="item.url" alt />
+            <div class="operate">
+              <i :style="{color: item.is_collected ? 'red' : '#000'}" class="el-icon-star-on"></i>
+              <i class="el-icon-delete-solid"></i>
+            </div>
+          </el-card>
+        </div>
     </el-tab-pane>
 </el-tabs>
 <div class="block">
@@ -51,11 +70,27 @@ export default {
     }
   },
   methods: {
+    // 图片上传的方法
+    uploadImg (params) {
+      // 这里图片上传时 接口规定必须以form-data的方式上传才可以  我们默认的请求头需要重新设置一下
+      const data = new FormData()
+      data.append('image', params.file)
+      // 发送请求
+      this.$axios({
+        url: '/user/images',
+        method: 'post',
+        data
+      }).then(result => {
+        this.getMaterial()
+      })
+    },
+    // 改变当前页码发送请求获取数据
     handleCurrentChange (val) {
       this.page.currentPage = val
       this.getMaterial()
       //  这时候当我们改变页码时 会传入一个参数这个参数就是当前页码的数  我们把这个数重新传入  然后发送请求  就会把这一夜的数据给你返回来
     },
+    // 改变一页几条
     handleSizeChange (val) {
       this.page.pageSize = val
       this.getMaterial()
