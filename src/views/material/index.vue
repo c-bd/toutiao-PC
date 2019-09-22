@@ -3,7 +3,7 @@
 <layout-right-content>
     <template slot="title">素材管理</template>
 </layout-right-content>
-<el-tabs v-model="activeName">
+<el-tabs v-model="activeName" @tab-click="changeTab ()">
     <el-tab-pane label="全部素材" name="all">
          <div class="img-list">
           <el-card class="img-item" v-for="item in list" :key="item.id">
@@ -18,6 +18,21 @@
     <el-tab-pane label="收藏素材" name="collect">
     </el-tab-pane>
 </el-tabs>
+<div class="block">
+
+    <el-row type="flex" justify="center">
+    <el-pagination
+      background
+      layout="total, sizes, prev, pager, next, jumper"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="page.currentPage"
+      :page-size="page.pageSize"
+      :total="page.total">
+    </el-pagination>
+    </el-row>
+
+  </div>
 </el-card>
 
 </template>
@@ -29,13 +44,27 @@ export default {
       activeName: 'all',
       list: [],
       page: {
-        total: 0,
-        currentPage: 1,
-        pageSize: 10
+        total: 0, // 总页数
+        currentPage: 1, // 当前页
+        pageSize: 10// 一页几条
       }
     }
   },
   methods: {
+    handleCurrentChange (val) {
+      this.page.currentPage = val
+      this.getMaterial()
+      //  这时候当我们改变页码时 会传入一个参数这个参数就是当前页码的数  我们把这个数重新传入  然后发送请求  就会把这一夜的数据给你返回来
+    },
+    handleSizeChange (val) {
+      this.page.pageSize = val
+      this.getMaterial()
+    },
+    changeTab () {
+      // 如果直接传入下面的 那么如果从第N也开始那么会找不到收藏的页面里的东西 所以我们应该在切换的时候 将页码重新变成第一页 这样才合理
+      this.page.currentPage = 1
+      this.getMaterial()
+    },
     getMaterial () {
       this.$axios({
         url: '/user/images',
@@ -43,6 +72,8 @@ export default {
         params: { collect: this.activeName === 'collect', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then(result => {
         this.list = result.data.results
+        // 赋值总数 每次总条数都会被重新赋值  我们请求回来后收藏和总数有可能会发生变化 所以总条数我们应该重新赋值才可以
+        this.page.total = result.data.total_count
       })
     }
   },
@@ -51,8 +82,8 @@ export default {
   }
 }
 </script>
-
 <style lang="less" scoped>
+
 .img-list{
     display:flex;
     flex-wrap:wrap;
