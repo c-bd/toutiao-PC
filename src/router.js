@@ -4,13 +4,13 @@ import Router from 'vue-router'
 import Home from './views/home/' // 简写
 import Login from './views/login/'
 import Main from './views/home/main'
-import HomePublish from './components/content/home-children/home-publish'
-import HomeArticles from './components/content/home-children/home-articles'
-import HomeFansdata from './components/content/home-children/home-fansdata'
-import HomeFansinfo from './components/content/home-children/home-fansinfo'
-import HomeFanslist from './components/content/home-children/home-fanslist'
-import HomeFansimg from './components/content/home-children/home-fansimg'
-import HomeCenter from './components/content/home-children/home-account'
+// import HomePublish from './components/content/home-children/home-publish'
+// import HomeArticles from './components/content/home-children/home-articles'
+// import HomeFansdata from './components/content/home-children/home-fansdata'
+// import HomeFansinfo from './components/content/home-children/home-fansinfo'
+// import HomeFanslist from './components/content/home-children/home-fanslist'
+// import HomeFansimg from './components/content/home-children/home-fansimg'
+// import HomeCenter from './components/content/home-children/home-account'
 Vue.use(Router)
 
 export default new Router({
@@ -28,13 +28,13 @@ export default new Router({
           path: '', // 上面都不写 默认二级路由
           component: Main
         },
-        {
-          path: 'publish',
-          component: HomePublish
-        },
+        // {
+        //   path: 'publish',
+        //   component: HomePublish
+        // },
         {
           path: 'articles',
-          component: HomeArticles
+          component: () => import('./views/contents')
         },
         {
           path: 'comment',
@@ -43,31 +43,31 @@ export default new Router({
         {
           path: 'material',
           component: () => import('./views/material')
-        },
-        {
-
-          path: 'fansdata',
-          component: HomeFansdata
-        },
-        {
-
-          path: 'fansinfo',
-          component: HomeFansinfo
-        },
-        {
-
-          path: 'fanslist',
-          component: HomeFanslist
-        },
-        {
-
-          path: 'fansimg',
-          component: HomeFansimg
-        },
-        {
-          path: 'account',
-          component: HomeCenter
         }
+        // {
+
+        //   path: 'fansdata',
+        //   component: HomeFansdata
+        // },
+        // {
+
+        //   path: 'fansinfo',
+        //   component: HomeFansinfo
+        // },
+        // {
+
+        //   path: 'fanslist',
+        //   component: HomeFanslist
+        // },
+        // {
+
+        //   path: 'fansimg',
+        //   component: HomeFansimg
+        // },
+        // {
+        //   path: 'account',
+        //   component: HomeCenter
+        // }
       ]
       // 二级路由的地址 如果以/开头那么就会默认从根路径开始找起 如果不以/开头 就会从你的父路由上进行追
     },
