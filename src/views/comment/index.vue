@@ -7,27 +7,29 @@
       <el-table
     :data="list">
     <el-table-column
-      prop="date"
+      prop="title"
       label="标题"
       width="580">
     </el-table-column>
     <el-table-column
-      prop="name"
+      prop="comment_status"
       label="评论状态"
+      align="center"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="address"
+      prop="total_comment_count"
       label="总评论数"
+      align="center"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="fans-comment"
+      prop="fans_comment_count"
       label="粉丝评论数"
+      align="center"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="operate"
       label="操作"
       >
     </el-table-column>
