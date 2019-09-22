@@ -1,6 +1,13 @@
-import axios from 'axios'
+
 import router from '../permission/permission'
 import { Message } from 'element-ui'
+import axios from 'axios'
+// import jsonBig from 'json-bigin'
+// // // 在相应数据回来之前我们需要处理一下大数字的问题
+// axios.defaults.transformResponse = [function (data) {
+//   // data 是响应回来的字符串
+//   return jsonBig.parse(data)
+// }]
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 // 在这之前用一个函数 手动给每一个header都加入一个token这样可以省去每次写请求都得取一次token
 // 在这里我们引入一个axios拦截器
