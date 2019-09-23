@@ -1,6 +1,5 @@
 <template>
-<el-card>
-
+<el-card slot="title">
 <layout-right-content>
     <template slot="title">素材管理</template>
 </layout-right-content>
@@ -16,22 +15,21 @@
 <el-tabs v-model="activeName" @tab-click="changeTab ()">
     <el-tab-pane label="全部素材" name="all">
          <div class="img-list">
-          <el-card class="img-item" v-for="item in list" :key="item.id">
+          <el-card class="img-item" v-for="item in list" :key="item.id" :body-style="{ padding: '0px'}">
             <img :src="item.url" alt />
             <div class="operate">
               <i :style="{color: item.is_collected ? 'red' : '#000'}" class="el-icon-star-on"></i>
-              <i class="el-icon-delete-solid"></i>
+              <i class="el-icon-delete-solid" @click="delectmaterial(item.id)"></i>
             </div>
           </el-card>
         </div>
     </el-tab-pane>
     <el-tab-pane label="收藏素材" name="collect">
      <div class="img-list">
-          <el-card class="img-item" v-for="item in list" :key="item.id">
+          <el-card class="img-item" v-for="item in list" :key="item.id" :body-style="{ padding: '0px'}">
             <img :src="item.url" alt />
             <div class="operate">
-              <i :style="{color: item.is_collected ? 'red' : '#000'}" class="el-icon-star-on"></i>
-              <i class="el-icon-delete-solid"></i>
+
             </div>
           </el-card>
         </div>
@@ -70,6 +68,24 @@ export default {
     }
   },
   methods: {
+    // 删除方法
+    delectmaterial (id) {
+      this.$confirm('你确定要删除吗？').then(() => {
+        this.$axios({
+          url: `/user/images/${id}`,
+          method: 'delete'
+        }).then(result => {
+          this.open2()
+          this.getMaterial()
+        })
+      })
+    },
+    open2 () {
+      this.$message({
+        message: '删除成功',
+        type: 'success'
+      })
+    },
     // 图片上传的方法
     uploadImg (params) {
       // 这里图片上传时 接口规定必须以form-data的方式上传才可以  我们默认的请求头需要重新设置一下
@@ -140,6 +156,7 @@ export default {
             bottom:0;
             width:100%;
             display:flex;
+            padding:0;
             justify-content:space-around;
             align-items:center;
             i{
