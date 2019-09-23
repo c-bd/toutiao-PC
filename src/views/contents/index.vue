@@ -19,9 +19,9 @@
                 <el-select v-model="formData.channel_id" clearable placeholder="请选择" style="margin-left:20px">
                   <el-option
                     v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
                   </el-option>
                 </el-select>
              </el-form-item>
@@ -39,6 +39,7 @@
               end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
+          {{formData.status}}{{formData.channel_id}}{{formData.data}}
         </el-form>
         <el-card class="box-card" :body-style="{ padding: '0px' , borderBottom:'5px solid #f2f3f4'}">
           <div slot="header" class="clearfix">
@@ -46,16 +47,17 @@
           </div>
           <div class="img-item" v-for="item in list" :key="item.id">
                 <div class="img-item-left">
-                    <img :src="item.cover.images.lenght ? item.cover.images[0] : defaultimages">
+                    <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt=''>
                     <div class="img-item-x">
                         <p style="margin:0 ; font-size:16px">{{item.title}}</p>
-                        <el-tag type="primary" plain size="small" style="margin:10px 0">{{item.status==="1"? "待审核":"未通过"}}</el-tag>
+                        <!--在这里写过滤器 根据状态吗来判断状态 显示对应的样式和文字提示-->
+                        <el-tag :type="item.status | statusType" plain size="small" style="margin:10px 0">{{item.status | statusText}}</el-tag>
                         <p style="margin:5px 0;font-size:12px">{{item.pubdate}}</p>
                     </div>
                 </div>
                 <div class="img-item-right">
                     <el-button type="text" style="color:black"><i class="el-icon-edit"></i>修改</el-button>
-                    <el-button type="text" style="color:black"><i class="el-icon-delete" @click="delectMaterial"></i>删除</el-button>
+                    <el-button type="text" style="color:black"><i class="el-icon-delete" @click="delectMaterial(item.id)"></i>删除</el-button>
                 </div>
           </div>
     </el-card>
@@ -79,8 +81,9 @@
 export default {
   data () {
     return {
-      defaultimages: require('../../assets/img/avatar.jpg'),
+      defaultImg: require('../../assets/img/avatar.jpg'),
       list: [],
+      options: [], // 这里是频道列表的数据
       loading: false,
       page: {
         total: 0, // 总页数
@@ -94,10 +97,54 @@ export default {
       }
     }
   },
+  // 这里定义一个过滤器来判断当前的状态是什么样子的 然后根据状态吗显示不同的样式
+  filters: {
+    statusText (value) {
+      switch (value) {
+        case 0:
+          return '草稿'
+        case 1:
+          return '待审核'
+        case 2:
+          return '审核通过'
+        case 3:
+          return '审核失败'
+        case 4:
+          return '已删除'
+      }
+    },
+    statusType (value) {
+      switch (value) {
+        case 0:
+          return 'warning'
+        case 1:
+          return 'info'
+        case 2:
+          return 'success'
+        case 3:
+          return 'warning'
+      }
+    }
+  },
   methods: {
+    // 获取频道列表
+    getChannels () {
+      this.$axios({
+        url: '/channels'
+      }).then(result => {
+        this.options = result.data.channels
+      })
+    },
     //   删除素材
-    delectMaterial () {
+    delectMaterial (id) {
+      this.$confirm('您确定要删除吗？').then(() => {
+        this.$axios({
+          url: `/articles/${id.toString()}`,
+          method: 'delete'
+        }).then(result => {
 
+        })
+      })
     },
     handleCurrentChange (val) {
       this.page.currentPage = val
@@ -123,6 +170,7 @@ export default {
   },
   created () {
     this.getCountent()
+    this.getChannels()
   }
 }
 </script>
