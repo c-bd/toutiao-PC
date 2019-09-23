@@ -43,6 +43,10 @@ export default new Router({
         {
           path: 'material',
           component: () => import('./views/material')
+        },
+        {
+          path: 'publish',
+          component: () => import('./views/publish')
         }
         // {
 
