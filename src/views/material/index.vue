@@ -18,7 +18,7 @@
           <el-card class="img-item" v-for="item in list" :key="item.id" :body-style="{ padding: '0px'}">
             <img :src="item.url" alt />
             <div class="operate">
-              <i :style="{color: item.is_collected ? 'red' : '#000'}" class="el-icon-star-on"></i>
+              <i  @click="collectmaterial(item)" :style="{color: item.is_collected ? 'red' : '#000'}" class="el-icon-star-on"></i>
               <i class="el-icon-delete-solid" @click="delectmaterial(item.id)"></i>
             </div>
           </el-card>
@@ -68,6 +68,20 @@ export default {
     }
   },
   methods: {
+    // 收藏方法
+    collectmaterial (item) {
+      let mess = item.is_collected ? '取消' : ''
+      this.$confirm(`你确定要${mess}收藏吗？`).then(() => {
+        // 现在收藏是false是反的  所以我们在这里需要取反
+        this.$axios({
+          url: `/user/images/${item.id}`,
+          method: 'put',
+          data: { collect: !item.is_collected }
+        }).then(result => {
+          this.getMaterial()
+        })
+      })
+    },
     // 删除方法
     delectmaterial (id) {
       this.$confirm('你确定要删除吗？').then(() => {
