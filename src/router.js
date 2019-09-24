@@ -45,6 +45,11 @@ export default new Router({
           component: () => import('./views/material')
         },
         {
+          // 因为带了id跳转会找不到所以只能重新定义一个 如果带着id参数跳转那么就可以跳转到同一页面
+          path: 'publish/:articleId',
+          component: () => import('./views/publish')
+        },
+        {
           path: 'publish',
           component: () => import('./views/publish')
         }
