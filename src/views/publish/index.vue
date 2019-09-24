@@ -71,14 +71,17 @@ export default {
         this.loginForm = result.data
       })
     },
+    // 我们发现编辑文章和发布文章调用的接口是一样的 唯一的区别就是编辑的时候需要将id传入 其余的数据都是一样的
     // 发表文章和存入草稿  首先我们先验证表单
     pubilshArticil (draft) {
       this.$refs.ruleForm.validate((isOK) => {
         if (isOK) {
+          // 成功之后在获取这个id 可以优化代码 省去白白浪费加载一行代码
+          let { articleId } = this.$route.params // 引入文章对应的id值 判断当前有没有id值
           // 成功之后我们可以发表内容
           this.$axios({
-            url: '/articles',
-            method: 'post',
+            url: articleId ? `/articles/${articleId}` : '/articles',
+            method: articleId ? 'put' : 'post',
             params: { draft },
             data: this.loginForm
           }).then(result => {
