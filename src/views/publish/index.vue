@@ -63,11 +63,28 @@ export default {
     }
   },
   methods: {
+    // 获取文章列表的内容
+    getArticilList (articleId) {
+      this.$axios({
+        url: `/articles/${articleId}`
+      }).then(result => {
+        this.loginForm = result.data
+      })
+    },
     // 发表文章和存入草稿  首先我们先验证表单
     pubilshArticil (draft) {
       this.$refs.ruleForm.validate((isOK) => {
         if (isOK) {
-
+          // 成功之后我们可以发表内容
+          this.$axios({
+            url: '/articles',
+            method: 'post',
+            params: { draft },
+            data: this.loginForm
+          }).then(result => {
+            this.$router.push('/home/articles')
+            // 成功之后跳转页面到articles页面
+          })
         }
       })
     },
@@ -93,6 +110,10 @@ export default {
   },
   created () {
     this.getChannels()
+    // 这时候如果是修改的页面 那么我们就判断又没有id传递过来 如果有就是编辑 如果没有就是新增
+    let { articleId } = this.$route.params
+    // 如果存在那么就调用后面的方法 否则啥也不返回  调用的时候将路由参数id传进去
+    articleId && this.getArticilList(articleId)
   }
 }
 </script>
