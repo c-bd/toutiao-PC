@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import evenBus from '../../utils/evenbus'
 export default {
   data () {
     return {
@@ -52,6 +53,10 @@ export default {
   },
   created () {
     this.getUserInfo()
+    // 一旦监听到事件 就会触发执行后面的函数
+    evenBus.$on('getUserInfo', () => {
+      this.getUserInfo()
+    })
   }
 }
 </script>

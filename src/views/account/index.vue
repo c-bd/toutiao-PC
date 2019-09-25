@@ -8,8 +8,8 @@
                   <img class='head-img' :src="formData.photo ? formData.photo : defaultImg " alt="">
                   <el-button type="text" class="head">更换头像</el-button>
                   <div class="header-count" v-if="abc">
-                      <p>李飞</p>
-                      <p>老师敲代码</p>
+                      <p>{{formData.name}}</p>
+                      <p>{{formData.intro}}</p>
                   </div>
                    <div v-if="over" class="abc">
                     <el-form-item prop="name" label="用户名">
@@ -60,7 +60,10 @@
 </template>
 
 <script>
+// 在这里引入一个实例化的Vue
+import Vue from '../../utils/evenbus.js'
 export default {
+
   data () {
     return {
       defaultImg: require('../../assets/img/avatar.jpg'),
@@ -87,8 +90,8 @@ export default {
             method: 'patch',
             data: this.formData
           }).then(result => {
-            //   这个时候需要跨模块获取数据 通过一个叫evenBus 公共实例来获取到数据
-
+            //   这个时候需要跨模块获取数据 通过一个叫evenBus 公共实例来获取到数据 这里只需要抛出不需要携带参数
+            Vue.$emit('getUserInfo')
             this.$message({ type: 'success', message: '保存成功' })
           })
         }
@@ -140,7 +143,7 @@ export default {
             bottom: 25px;
         }
         .header-count{
-            margin-left:-550px;
+            margin-left:-500px;
         }
     }
     .user{
