@@ -80,7 +80,19 @@ export default {
   methods: {
     //   修改个人信息
     saveUser () {
+      this.$refs.accountForm.validate((isOk) => {
+        if (isOk) {
+          this.$axios({
+            url: '/user/profile',
+            method: 'patch',
+            data: this.formData
+          }).then(result => {
+            //   这个时候需要跨模块获取数据 通过一个叫evenBus 公共实例来获取到数据
 
+            this.$message({ type: 'success', message: '保存成功' })
+          })
+        }
+      })
     },
     alterUser () {
       this.over = true
