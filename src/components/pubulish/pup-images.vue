@@ -12,6 +12,9 @@
             </el-radio-group>
         </el-tab-pane>
         <el-tab-pane label="图片上传">
+             <el-upload :show-file-list="false" action="" :http-request="uploadImg">
+             <i class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
         </el-tab-pane>
          <el-row type="flex" justify="center">
     <el-pagination
@@ -34,7 +37,6 @@ export default {
     return {
       radio1: '全部',
       list: [],
-
       page: {
         total: 0, // 总页数
         currentPage: 1, // 当前页
@@ -43,6 +45,20 @@ export default {
     }
   },
   methods: {
+    // 图片上传：
+    uploadImg (params) {
+      debugger
+      // 因为图片上传是form-data格式  所以需要使用new FormData
+      let data = new FormData()
+      data.append('image', params.file)
+      this.$axios({
+        url: '/user/images',
+        method: 'post',
+        data
+      }).then(result => {
+        this.$emit('selectOneImg', result.data.url)
+      })
+    },
     //  --------------------------关于页码的改变
     handleCurrentChange (val) {
       this.page.currentPage = val
@@ -87,6 +103,14 @@ export default {
       height: 100%;
     }
 }
+}
+.el-icon-plus{
+height: 200px;
+width: 200px;
+line-height: 200px;
+text-align: center;
+border:1px solid #ccc;
+font-size: 25px;
 }
 
 </style>
