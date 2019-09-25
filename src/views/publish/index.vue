@@ -22,7 +22,7 @@
            </el-radio-group>
         </el-form-item>
         <!-- 父给子传递数据时 我们在父组件中写上要传递的值 在子中通过prop属性来获取 然后渲染到页面上 -->
-        <cover-image :image="loginForm.cover.images"></cover-image>
+        <cover-image :image="loginForm.cover.images" @indexImg='indexPhoto'></cover-image>
         <el-form-item label="频道" prop="channel_id">
            <el-select v-model="loginForm.channel_id">
                 <el-option v-for="(item,index) in channels" :key="index" :value="item.id" :label="item.name"></el-option>
@@ -63,6 +63,9 @@ export default {
     }
   },
   methods: {
+    indexPhoto (url, index) {
+      this.loginForm.cover.images = this.loginForm.cover.images.map((item, i) => i === index ? url : item)
+    },
     // 获取文章列表的内容
     getArticilList (articleId) {
       this.$axios({
@@ -122,4 +125,5 @@ export default {
 </script>
 
 <style>
+
 </style>

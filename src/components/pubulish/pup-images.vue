@@ -6,7 +6,7 @@
                 <el-radio-button label="收藏"></el-radio-button>
                 <div class="img-item-box">
                     <el-card class="img-item" v-for="(item,index) in list" :key="index" :body-style="{ padding: '0px'}">
-                      <img :src="item.url" alt />
+                        <img :src="item.url" alt="" @click="getImgUrl(item)"/>
                     </el-card>
                 </div>
             </el-radio-group>
@@ -34,6 +34,7 @@ export default {
     return {
       radio1: '全部',
       list: [],
+
       page: {
         total: 0, // 总页数
         currentPage: 1, // 当前页
@@ -60,6 +61,11 @@ export default {
       }).then(result => {
         this.list = result.data.results
       })
+    },
+    // 获取到图片的地址  我们需要把这个地址传到前面的组件内
+    getImgUrl (item, e) {
+      // 通过自定义事件来将参数带过去 这样我们就可以在上级拿到子级里面的数据
+      this.$emit('selectOneImg', item.url)
     }
   },
   created () {
