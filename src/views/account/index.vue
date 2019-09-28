@@ -172,7 +172,7 @@ export default {
         }
     }
     .emile{
-        border-top:2px solid #ccc;
+        border-top:1px solid #ccc;
         .emile-left{
              margin-left:120px;
         }
@@ -181,7 +181,7 @@ export default {
         }
         .bcd{
             margin-left: 300px;
-            margin-top:-46px;
+            margin-top:-44px;
         }
     }
 }
