@@ -173,7 +173,6 @@ export default {
     }
     .emile{
         border-top:2px solid #ccc;
-        border-left: 1px solid #aaa;
         .emile-left{
              margin-left:120px;
         }
